@@ -98,7 +98,7 @@ def prod():
     env.deploy_env = 'prod'
     env.hosts      = ['reportcard2.pmtpa.wmflabs']
     env.gateway    = 'bastion.wmflabs.org'
-    env.target_dir = '/srv/reportcard/kraken-ui'
+    env.target_dir = '/srv/reportcard/limn'
     env.git_branch = 'master'
     env.owner      = 'www-data'
     env.group      = 'www'
@@ -111,7 +111,7 @@ def test():
     env.deploy_env = 'test'
     env.hosts      = ['kripke.pmtpa.wmflabs']
     env.gateway    = 'bastion.wmflabs.org'
-    env.target_dir = '/srv/test-reportcard.wmflabs.org/kraken-ui'
+    env.target_dir = '/srv/test-reportcard.wmflabs.org/limn'
     env.git_branch = 'rc'
     env.owner      = 'www-data'
     env.group      = 'www'
@@ -125,7 +125,7 @@ def dev():
     env.deploy_env = 'dev'
     env.hosts      = ['kripke.pmtpa.wmflabs']
     env.gateway    = 'bastion.wmflabs.org'
-    env.target_dir = '/srv/dev-reportcard.wmflabs.org/kraken-ui'
+    env.target_dir = '/srv/dev-reportcard.wmflabs.org/limn'
     env.git_branch = 'develop'
     env.owner      = 'www-data'
     env.group      = 'www'
@@ -138,7 +138,7 @@ def lessly():
     """
     env.deploy_env = 'lessly'
     env.hosts      = ['less.ly']
-    env.target_dir = '/home/wmf/projects/kraken-ui'
+    env.target_dir = '/home/wmf/projects/limn'
     env.git_branch = 'develop'
     env.owner      = 'wmf'
     env.group      = 'www'

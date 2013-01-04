@@ -40,7 +40,7 @@ defaults(env, dict(
     colors             = True,
     use_ssh_config     = True,
     
-    git_origin         = 'git@less.ly:kraken-ui.git',
+    git_origin         = 'git@github.com:wikimedia/limn.git',
     dev_server         = 'localhost:8081',
     minify_cmd         = 'uglifyjs',
     
@@ -56,7 +56,7 @@ defaults(env, dict(
     
     vendor_search_dirs = ['static', 'var', '%(work_dir)s'],
     vendor_bundle      = '%(work_dir)s/vendor/vendor-bundle.min.js',
-    app_bundle         = '%(work_dir)s/js/kraken/app-bundle.js',
+    app_bundle         = '%(work_dir)s/js/limn/app-bundle.js',
 ))
 
 env_paths = (
@@ -93,7 +93,7 @@ import deploy
 def full_deploy():
     """ Bundles and deploys the project. [Default]
     """
-    bundle.bundle_all()
+    # FIXME: We have to fix bundling bundle.bundle_all()
     deploy.deploy_and_update()
 
 

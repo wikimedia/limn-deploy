@@ -33,15 +33,15 @@ def collapse_trees():
     # XXX: Unfortunately, we can't use rsync_project() for local-to-local copies, as it insists on
     # inserting a : before the remote path, which indicates a local-to-remote copy. :(
     
-    # Copy the static files, derived files, and the whole data directory (bc lack of trailing /)
+    # Copy the static files, derived files, along with the data directory
     # into dist. Note that you will need to load all the site pages in your browser to populate var
     # with the derived files.
-    local('rsync -Ca static/ var/ data %(work_dir)s/' % env)
+    local('rsync -Ca static/ var/ %(work_dir)s/' % env)
     
-    # We copy lib (which contains .co source files) to src to make it easy to link source content
+    # We copy src (which contains .co source files) to src to make it easy to link source content
     # to each other. Finding it in gitweb is a pain. Finding it in gerrit is almost impossible.
     # But this could go away when we move to github.
-    local('rsync -Ca lib/ %(work_dir)s/src/' % env)
+    local('rsync -Ca src/ %(work_dir)s/src/' % env)
     
     # For some reason, the shell tool does not generate a file identical to the middleware. So whatever.
     # We curl here because we know that version works.
@@ -58,7 +58,7 @@ def bundle_vendor():
     update_version()
     with env.vendor_bundle.open('w') as vendor_bundle:
         
-        for js in local('coke source_list | grep vendor', capture=True).split('\n'):
+        for js in local('coke list_all | grep vendor', capture=True).split('\n'):
             try:
                 # Search for matching vendor file as it might be derived (.mod.js)
                 vendor_file = ( d/js for d in env.vendor_search_dirs if (d/js).exists() ).next()

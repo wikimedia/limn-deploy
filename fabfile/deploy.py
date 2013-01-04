@@ -71,6 +71,7 @@ def update_branch():
         execute(checkout)
         run('git pull origin %(git_branch)s' % env)
         run('npm install')
+        run('npm update')
 
 @task
 @expand_env
