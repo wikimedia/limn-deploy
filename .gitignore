@@ -36,5 +36,4 @@ tmp
 
 version.js
 www/presets/*.json
-
-
+fabfilerc

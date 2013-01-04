@@ -95,52 +95,60 @@ def check_branch(fn):
 def prod():
     """ Set deploy environment to production.
     """
-    env.deploy_env = 'prod'
-    env.hosts      = ['reportcard2.pmtpa.wmflabs']
-    env.gateway    = 'bastion.wmflabs.org'
-    env.target_dir = '/srv/reportcard/limn'
-    env.git_branch = 'master'
-    env.owner      = 'www-data'
-    env.group      = 'www'
+    env.deploy_env      = 'prod'
+    env.hosts           = ['reportcard2.pmtpa.wmflabs']
+    env.gateway         = 'bastion.wmflabs.org'
+    env.target_dir      = '/srv/reportcard/limn'
+    env.target_data_dir = '/srv/reportcard/reportcard-data'
+    env.git_branch      = 'master'
+    env.git_data_branch = 'master'
+    env.owner           = 'www-data'
+    env.group           = 'www'
 
 
 @stage
 def test():
     """ Set deploy environment to test.
     """
-    env.deploy_env = 'test'
-    env.hosts      = ['kripke.pmtpa.wmflabs']
-    env.gateway    = 'bastion.wmflabs.org'
-    env.target_dir = '/srv/test-reportcard.wmflabs.org/limn'
-    env.git_branch = 'rc'
-    env.owner      = 'www-data'
-    env.group      = 'www'
-    env.supervisor_job = 'test-reportcard'
+    env.deploy_env      = 'test'
+    env.hosts           = ['kripke.pmtpa.wmflabs']
+    env.gateway         = 'bastion.wmflabs.org'
+    env.target_dir      = '/srv/test-reportcard.wmflabs.org/limn'
+    env.target_data_dir = '/srv/test-reportcard.wmflabs.org/reportcard-data'
+    env.git_branch      = 'master'
+    env.git_data_branch = 'master'
+    env.owner           = 'www-data'
+    env.group           = 'www'
+    env.supervisor_job  = 'test-reportcard'
 
 
 @stage
 def dev():
     """ Set deploy environment to dev.
     """
-    env.deploy_env = 'dev'
-    env.hosts      = ['kripke.pmtpa.wmflabs']
-    env.gateway    = 'bastion.wmflabs.org'
-    env.target_dir = '/srv/dev-reportcard.wmflabs.org/limn'
-    env.git_branch = 'develop'
-    env.owner      = 'www-data'
-    env.group      = 'www'
-    env.supervisor_job = 'dev-reportcard'
+    env.deploy_env      = 'dev'
+    env.hosts           = ['kripke.pmtpa.wmflabs']
+    env.gateway         = 'bastion.wmflabs.org'
+    env.target_dir      = '/srv/dev-reportcard.wmflabs.org/limn'
+    env.target_data_dir = '/srv/dev-reportcard.wmflabs.org/reportcard-data'
+    env.git_branch      = 'develop'
+    env.git_data_branch = 'feature/d3'
+    env.owner           = 'www-data'
+    env.group           = 'www'
+    env.supervisor_job  = 'dev-reportcard'
 
 
 @stage
 def lessly():
     """ Set deploy environment to lessly.
     """
-    env.deploy_env = 'lessly'
-    env.hosts      = ['less.ly']
-    env.target_dir = '/home/wmf/projects/limn'
-    env.git_branch = 'develop'
-    env.owner      = 'wmf'
-    env.group      = 'www'
+    env.deploy_env      = 'lessly'
+    env.hosts           = ['less.ly']
+    env.target_dir      = '/home/wmf/projects/limn'
+    env.target_data_dir = '/home/wmf/projects/reportcard-data'
+    env.git_branch      = 'develop'
+    env.git_data_branch = 'develop'
+    env.owner           = 'wmf'
+    env.group           = 'www'
     if 'gateway' in env: del env['gateway']
 

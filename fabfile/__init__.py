@@ -40,7 +40,7 @@ defaults(env, dict(
     colors             = True,
     use_ssh_config     = True,
     
-    git_origin         = 'git@github.com:wikimedia/limn.git',
+    git_origin         = 'git://github.com/wikimedia/limn.git',
     dev_server         = 'localhost:8081',
     minify_cmd         = 'uglifyjs',
     

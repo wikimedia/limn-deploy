@@ -50,12 +50,12 @@ def msg(txt, quiet=False):
 ### Git Integration
 
 def branches(remotes=False, all=False):
-    "List of git branchs."
+    "List of git branches."
     opts = {
         'remotes' : '--remotes' if remotes else '',
         'all'     : '--all' if all else ''
     }
-    return [ branch.strip().split()[-1] for branch in local('git branch %(remotes)s %(all)s' % opts, capture=True).split('\n') ]
+    return [ branch.strip().split()[-1] for branch in run('git branch %(remotes)s %(all)s' % opts).split('\n') ]
 
 def working_branch():
     "Determines the working branch."
