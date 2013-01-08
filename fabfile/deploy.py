@@ -18,6 +18,7 @@ from util import *
 def deploy_and_update():
     """ Deploy the project.
     """
+    make_directories()
     fix_permissions()
     clone()
     update_branch()
@@ -31,6 +32,17 @@ def deploy_and_update():
     
     fix_permissions()
     restart_node()
+    clear_cache()
+
+@task
+@expand_env
+@ensure_stage
+@msg('Making Target Directories')
+def make_directories():
+    if not exists('%(target_dir)s' % env):
+        run('mkdir -p %(target_dir)s' % env)
+    if not exists('%(target_data_dir)s' % env):
+        run('mkdir -p %(target_data_dir)s' % env)
 
 @task
 @expand_env
@@ -74,7 +86,7 @@ def clone_data():
     """ Clones data repository on deployment host if not present.
     """
     if exists('%(target_data_dir)s/.git' % env): return
-    run('git clone %(git_data_branch)s %(target_data_dir)s' % env)
+    run('git clone %(git_data_origin)s %(target_data_dir)s' % env)
 
 @task
 @expand_env
@@ -137,7 +149,7 @@ def sync_files():
     # rsync_project(local_dir=env.work_dir, remote_dir="%(user)s@%(host)s:%(target_dir)s/" % env)
     
     # Remove derived files to ensure they get regenerated
-    run('rm -rf %(target_dir)s/var' % env)
+    run('sudo rm -rf %(target_dir)s/var' % env)
 
 @task
 @expand_env
@@ -159,3 +171,9 @@ def restart_node():
     sudo("supervisorctl restart %(supervisor_job)s" % env)
 
 
+@task
+@msg('Placeholder Task: Make sure to generate and minify JS and CSS, and that datafiles are not cached')
+def clear_cache():
+    """ After a clean deployment, some old datafiles are still being served to the browser
+    """
+    #TODO: Figure out how to remove this cache

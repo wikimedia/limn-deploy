@@ -132,7 +132,7 @@ def dev():
     env.target_dir      = '/srv/dev-reportcard.wmflabs.org/limn'
     env.target_data_dir = '/srv/dev-reportcard.wmflabs.org/reportcard-data'
     env.git_branch      = 'develop'
-    env.git_data_branch = 'feature/d3'
+    env.git_data_branch = 'develop'
     env.owner           = 'www-data'
     env.group           = 'www'
     env.supervisor_job  = 'dev-reportcard'
