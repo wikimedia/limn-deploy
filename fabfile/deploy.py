@@ -40,9 +40,9 @@ def deploy_and_update():
 @msg('Making Target Directories')
 def make_directories():
     if not exists('%(target_dir)s' % env):
-        run('mkdir -p %(target_dir)s' % env)
+        sudo('mkdir -p %(target_dir)s' % env)
     if not exists('%(target_data_dir)s' % env):
-        run('mkdir -p %(target_data_dir)s' % env)
+        sudo('mkdir -p %(target_data_dir)s' % env)
 
 @task
 @expand_env
@@ -76,7 +76,7 @@ def clone():
     """ Clones source on deployment host if not present.
     """
     if exists('%(target_dir)s/.git' % env): return
-    run('git clone %(git_origin)s %(target_dir)s' % env)
+    sudo('git clone %(git_origin)s %(target_dir)s' % env)
 
 @task
 @expand_env
@@ -86,7 +86,7 @@ def clone_data():
     """ Clones data repository on deployment host if not present.
     """
     if exists('%(target_data_dir)s/.git' % env): return
-    run('git clone %(git_data_origin)s %(target_data_dir)s' % env)
+    sudo('git clone %(git_data_origin)s %(target_data_dir)s' % env)
 
 @task
 @expand_env
@@ -96,10 +96,10 @@ def checkout():
     """
     # TODO: Locally saved data files will cause yelling?
     with cd(env.target_dir):
-        run('git fetch --all')
+        sudo('git fetch --all')
         opts = {'track' : '--track origin/' if env.git_branch not in branches() else ''}
         opts.update(env)
-        run('git checkout %(track)s%(git_branch)s' % opts)
+        sudo('git checkout %(track)s%(git_branch)s' % opts)
 
 @task
 @expand_env
@@ -108,10 +108,10 @@ def checkout_data():
     """ Checks out proper data branch on deployment host.
     """
     with cd(env.target_data_dir):
-        run('git fetch --all')
+        sudo('git fetch --all')
         opts = {'track' : '--track origin/' if env.git_data_branch not in branches() else ''}
         opts.update(env)
-        run('git checkout %(track)s%(git_data_branch)s' % opts)
+        sudo('git checkout %(track)s%(git_data_branch)s' % opts)
 
 @task
 @expand_env
@@ -122,9 +122,9 @@ def update_branch():
     """
     with cd(env.target_dir):
         execute(checkout)
-        run('git pull origin %(git_branch)s' % env)
-        run('sudo npm install')
-        run('sudo npm update')
+        sudo('git pull origin %(git_branch)s' % env)
+        sudo('npm install')
+        sudo('npm update')
 
 @task
 @expand_env
@@ -135,7 +135,7 @@ def update_branch_data():
     """
     with cd(env.target_data_dir):
         execute(checkout_data)
-        run('git pull origin %(git_data_branch)s' % env)
+        sudo('git pull origin %(git_data_branch)s' % env)
 
 @task
 @expand_env
@@ -149,7 +149,7 @@ def sync_files():
     # rsync_project(local_dir=env.work_dir, remote_dir="%(user)s@%(host)s:%(target_dir)s/" % env)
     
     # Remove derived files to ensure they get regenerated
-    run('sudo rm -rf %(target_dir)s/var' % env)
+    sudo('rm -rf %(target_dir)s/var' % env)
 
 @task
 @expand_env
@@ -159,7 +159,7 @@ def link_data():
     """ adds Sym-Links to the specified reporcard data directory
     """
     with cd(env.target_dir):
-        run('export LIMN_REPORTCARD="%(target_data_dir)s"; coke link_reportcard_data' % env)
+        sudo('export LIMN_REPORTCARD="%(target_data_dir)s"; coke link_reportcard_data' % env)
 
 @task
 @expand_env
