@@ -123,6 +123,23 @@ def test():
 
 
 @stage
+def global_dev():
+    """ Set deploy environment to test.
+    """
+    env.deploy_env      = 'test'
+    env.hosts           = ['kripke.pmtpa.wmflabs']
+    env.gateway         = 'bastion.wmflabs.org'
+    env.target_dir      = '/srv/global-dev-new.wmflabs.org/limn'
+    env.target_data_dir = '/srv/global-dev-new.wmflabs.org/limn-data'
+    env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/global-dev/dashboard-data.git'
+    env.git_branch      = 'master'
+    env.git_data_branch = 'master'
+    env.owner           = 'www-data'
+    env.group           = 'www'
+    env.supervisor_job  = 'global-dev-new'
+
+
+@stage
 def dev():
     """ Set deploy environment to dev.
     """
