@@ -159,7 +159,7 @@ def link_data():
     """ adds Sym-Links to the specified reporcard data directory
     """
     with cd(env.target_dir):
-        sudo('export LIMN_REPORTCARD="%(target_data_dir)s"; coke link_reportcard_data' % env)
+        sudo('coke link_data %(target_data_dir)s gp' % env)
 
 @task
 @expand_env
