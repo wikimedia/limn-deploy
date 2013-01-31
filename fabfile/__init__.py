@@ -41,11 +41,8 @@ defaults(env, dict(
     use_ssh_config     = True,
     
     git_origin         = 'git://github.com/wikimedia/limn.git',
-    git_data_origin    = 'https://gerrit.wikimedia.org/r/p/analytics/reportcard/data.git',
     dev_server         = 'localhost:8081',
     minify_cmd         = 'uglifyjs',
-    
-    supervisor_job     = 'reportcard',
     
     ### Paths
     dist               = 'dist',
