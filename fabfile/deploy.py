@@ -181,7 +181,7 @@ def link_data():
     """ adds Sym-Links to the specified reporcard data directory
     """
     with cd(env.target_dir):
-        sudo('coke --from %(target_data_dir)s --to %(target_data_to)s link_data' % env)
+        sudo('coke --data %(target_data_dir)s --to %(target_data_to)s link_data' % env)
 
 @task
 @expand_env
