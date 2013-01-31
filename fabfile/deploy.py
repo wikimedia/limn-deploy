@@ -15,24 +15,43 @@ from util import *
 @task(default=True)
 @expand_env
 @ensure_stage
-def deploy_and_update():
+def code_and_data():
     """ Deploy the project.
+    """
+    only_data()
+    only_code()
+
+
+@task
+@expand_env
+@ensure_stage
+def only_code():
+    """ Deploy only the code
     """
     make_directories()
     fix_permissions()
     clone()
     update_branch()
-    sync_files()
-    
-    fix_permissions_data()
-    clone_data()
-    update_branch_data()
-    fix_permissions_data()
+    remove_derived()
     link_data()
     
     fix_permissions()
     restart_node()
-    clear_cache()
+    build_minified()
+
+
+@task
+@expand_env
+@ensure_stage
+def only_data():
+    """ Deploy only the data
+    """
+    make_directories_data()
+    fix_permissions_data()
+    clone_data()
+    update_branch_data()
+    fix_permissions_data()
+
 
 @task
 @expand_env
@@ -41,6 +60,12 @@ def deploy_and_update():
 def make_directories():
     if not exists('%(target_dir)s' % env):
         sudo('mkdir -p %(target_dir)s' % env)
+
+@task
+@expand_env
+@ensure_stage
+@msg('Making Target Directories for Data')
+def make_directories_data():
     if not exists('%(target_data_dir)s' % env):
         sudo('mkdir -p %(target_data_dir)s' % env)
 
@@ -140,13 +165,10 @@ def update_branch_data():
 @task
 @expand_env
 @ensure_stage
-@msg('Syncing Files')
-def sync_files():
-    """ Copies `dist` package to deployment host.
+@msg('Remove Derived Files')
+def remove_derived():
+    """ Removes the var directory which contains all derived files
     """
-    # TODO: fix this when fixing bundling bundling local("rsync -Crz -v %(work_dir)s %(user)s@%(host)s:%(target_dir)s/" % env)
-    # TODO: make sure the following works.
-    # rsync_project(local_dir=env.work_dir, remote_dir="%(user)s@%(host)s:%(target_dir)s/" % env)
     
     # Remove derived files to ensure they get regenerated
     sudo('rm -rf %(target_dir)s/var' % env)
@@ -172,8 +194,8 @@ def restart_node():
 
 
 @task
-@msg('Placeholder Task: Make sure to generate and minify JS and CSS, and that datafiles are not cached')
-def clear_cache():
-    """ After a clean deployment, some old datafiles are still being served to the browser
+@msg('Placeholder Task: Make sure to generate and minify JS and CSS')
+def build_minified():
+    """ Generates minified JS and CSS
     """
-    #TODO: Figure out how to remove this cache
+    #TODO: Add coke task to build the minified files from source
