@@ -32,11 +32,14 @@ def only_code():
     fix_permissions()
     clone()
     update_branch()
+    stop_node()
     remove_derived()
     link_data()
+    build()
+    bundle()
     
     fix_permissions()
-    restart_node()
+    start_node()
     build_minified()
 
 
@@ -186,11 +189,40 @@ def link_data():
 @task
 @expand_env
 @ensure_stage
-@msg('Restarting Node.js')
-def restart_node():
-    """ Restarts node.js server on the deployment host.
+@msg('Build sources to output directory')
+def build():
+    """ Build sources to output directory
     """
-    sudo("supervisorctl restart %(supervisor_job)s" % env)
+    with cd(env.target_dir):
+        sudo('coke build' % env)
+
+@task
+@expand_env
+@ensure_stage
+@msg('Bundling sources to support production mode')
+def bundle():
+    """ Bundling sources to support production mode
+    """
+    with cd(env.target_dir):
+        sudo('coke bundle' % env)
+
+@task
+@expand_env
+@ensure_stage
+@msg('Stop Node.js')
+def stop_node():
+    """ Stop node.js server on the deployment host.
+    """
+    sudo("supervisorctl stop %(supervisor_job)s" % env)
+
+@task
+@expand_env
+@ensure_stage
+@msg('Start Node.js')
+def start_node():
+    """ Start node.js server on the deployment host.
+    """
+    sudo("supervisorctl start %(supervisor_job)s" % env)
 
 
 @task
