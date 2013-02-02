@@ -40,7 +40,6 @@ def only_code():
     
     fix_permissions()
     start_node()
-    build_minified()
 
 
 @task
@@ -223,11 +222,3 @@ def start_node():
     """ Start node.js server on the deployment host.
     """
     sudo("supervisorctl start %(supervisor_job)s" % env)
-
-
-@task
-@msg('Placeholder Task: Make sure to generate and minify JS and CSS')
-def build_minified():
-    """ Generates minified JS and CSS
-    """
-    #TODO: Add coke task to build the minified files from source
