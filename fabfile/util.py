@@ -55,11 +55,11 @@ def branches(remotes=False, all=False):
         'remotes' : '--remotes' if remotes else '',
         'all'     : '--all' if all else ''
     }
-    return [ branch.strip().split()[-1] for branch in run('git branch %(remotes)s %(all)s' % opts).split('\n') ]
+    return [ branch.strip().split()[-1] for branch in run('git branch --no-color %(remotes)s %(all)s' % opts).split('\n') ]
 
 def working_branch():
     "Determines the working branch."
-    return [ branch.split()[1] for branch in local('git branch', capture=True).split('\n') if '*' in branch ][0]
+    return [ branch.split()[1] for branch in local('git branch --no-color', capture=True).split('\n') if '*' in branch ][0]
 
 
 
