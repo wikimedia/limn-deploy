@@ -178,12 +178,14 @@ def remove_derived():
 @task
 @expand_env
 @ensure_stage
-@msg('Sym-Linking Reportcard Data')
+@msg('Sym-Linking Data')
 def link_data():
-    """ adds Sym-Links to the specified reporcard data directory
+    """ adds Sym-Links to the specified data directory
     """
+    if not exists('%(target_link_dir)s' % env):
+        sudo('mkdir -p %(target_link_dir)s' % env)
     with cd(env.target_dir):
-        sudo('coke --data %(target_data_dir)s --to %(target_data_to)s link_data' % env)
+        sudo('coke -l %(target_link_dir)s -d %(target_data_dir)s -t %(target_data_to)s link_data' % env)
 
 @task
 @expand_env
