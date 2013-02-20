@@ -99,7 +99,7 @@ def prod():
     env.hosts           = ['reportcard2.pmtpa.wmflabs']
     env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/srv/reportcard/limn'
-    env.target_link_dir = '/srv/reportcard/limn/var/data'
+    env.target_var_dir  = '/srv/reportcard/limn/var'
     env.target_data_dir = '/srv/reportcard/reportcard-data'
     env.target_data_to  = 'rc'
     env.git_branch      = 'master'
@@ -118,7 +118,7 @@ def test():
     env.hosts           = ['kripke.pmtpa.wmflabs']
     env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/srv/test-reportcard.wmflabs.org/limn'
-    env.target_link_dir = '/srv/test-reportcard.wmflabs.org/limn/var/data'
+    env.target_var_dir  = '/srv/test-reportcard.wmflabs.org/limn/var'
     env.target_data_dir = '/srv/test-reportcard.wmflabs.org/reportcard-data'
     env.target_data_to  = 'rc'
     env.git_branch      = 'master'
@@ -137,7 +137,7 @@ def gp_dev():
     env.hosts           = ['kripke.pmtpa.wmflabs']
     env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/srv/gp-dev.wmflabs.org/limn'
-    env.target_link_dir = '/srv/gp-dev.wmflabs.org/limn/var/data'
+    env.target_var_dir  = '/srv/gp-dev.wmflabs.org/limn/var'
     env.target_data_dir = '/srv/gp-dev.wmflabs.org/limn-data'
     env.target_data_to  = 'gp'
     env.git_branch      = 'develop'
@@ -156,7 +156,7 @@ def dev():
     env.hosts           = ['kripke.pmtpa.wmflabs']
     env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/srv/dev-reportcard.wmflabs.org/limn'
-    env.target_link_dir = '/srv/dev-reportcard.wmflabs.org/limn/var/data'
+    env.target_var_dir  = '/srv/dev-reportcard.wmflabs.org/limn/var'
     env.target_data_dir = '/srv/dev-reportcard.wmflabs.org/reportcard-data'
     env.target_data_to  = 'rc'
     env.git_branch      = 'develop'

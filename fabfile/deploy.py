@@ -182,10 +182,10 @@ def remove_derived():
 def link_data():
     """ adds Sym-Links to the specified data directory
     """
-    if not exists('%(target_link_dir)s' % env):
-        sudo('mkdir -p %(target_link_dir)s' % env)
+    if not exists('%(target_var_dir)s' % env):
+        sudo('mkdir -p %(target_var_dir)s' % env)
     with cd(env.target_dir):
-        sudo('coke -l %(target_link_dir)s -d %(target_data_dir)s -t %(target_data_to)s link_data' % env)
+        sudo('coke -v %(target_var_dir)s -d %(target_data_dir)s -t %(target_data_to)s link_data' % env)
 
 @task
 @expand_env
