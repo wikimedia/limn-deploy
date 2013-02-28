@@ -151,7 +151,6 @@ def update_branch():
         execute(checkout)
         sudo('git pull origin %(git_branch)s' % env)
         sudo('npm install')
-        sudo('npm update')
 
 @task
 @expand_env
