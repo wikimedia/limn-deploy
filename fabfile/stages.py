@@ -96,18 +96,19 @@ def prod():
     """ Set deploy environment to production.
     """
     env.deploy_env      = 'prod'
-    env.hosts           = ['reportcard2.pmtpa.wmflabs']
+    env.hosts           = ['reportcard.pmtpa.wmflabs']
     env.gateway         = 'bastion.wmflabs.org'
-    env.target_dir      = '/srv/reportcard/limn'
-    env.target_var_dir  = '/srv/reportcard/limn/var'
-    env.target_data_dir = '/srv/reportcard/reportcard-data'
+    env.target_dir      = '/usr/lib/limn'
+    env.target_var_dir  = '/var/lib/limn/reportcard'
+    env.target_data_dir = '/var/lib/limn/reportcard-data'
     env.target_data_to  = 'rc'
     env.git_branch      = 'master'
     env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/reportcard/data.git'
     env.git_data_branch = 'master'
-    env.owner           = 'www-data'
-    env.group           = 'www'
-    env.supervisor_job  = 'reportcard'
+    env.owner           = 'limn'
+    env.group           = 'limn'
+    env.provider_job    = 'limn-reportcard'
+    env.provider        = 'upstart'
 
 
 @stage
@@ -126,7 +127,8 @@ def test():
     env.git_data_branch = 'master'
     env.owner           = 'www-data'
     env.group           = 'www'
-    env.supervisor_job  = 'test-reportcard'
+    env.provider_job    = 'test-reportcard'
+    env.provider        = 'supervisor'
 
 
 @stage
@@ -145,7 +147,8 @@ def gp_dev():
     env.git_data_branch = 'master'
     env.owner           = 'www-data'
     env.group           = 'www'
-    env.supervisor_job  = 'gp-dev'
+    env.provider_job    = 'gp-dev'
+    env.provider        = 'supervisor'
 
 
 @stage
@@ -164,22 +167,5 @@ def dev():
     env.git_data_branch = 'develop'
     env.owner           = 'www-data'
     env.group           = 'www'
-    env.supervisor_job  = 'dev-reportcard'
-
-
-@stage
-def lessly():
-    """ Set deploy environment to lessly.
-    """
-    env.deploy_env      = 'lessly'
-    env.hosts           = ['less.ly']
-    env.target_dir      = '/home/wmf/projects/limn'
-    env.target_data_dir = '/home/wmf/projects/reportcard-data'
-    env.target_data_to  = 'rc'
-    env.git_branch      = 'develop'
-    env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/reportcard/data.git'
-    env.git_data_branch = 'develop'
-    env.owner           = 'wmf'
-    env.group           = 'www'
-    if 'gateway' in env: del env['gateway']
-
+    env.provider_job    = 'dev-reportcard'
+    env.provider        = 'supervisor'

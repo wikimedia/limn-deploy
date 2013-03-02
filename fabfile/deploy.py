@@ -32,14 +32,14 @@ def only_code():
     fix_permissions()
     clone()
     update_branch()
-    stop_node()
+    stop_server()
     remove_derived()
     link_data()
     build()
     bundle()
     
     fix_permissions()
-    start_node()
+    start_server()
 
 
 @task
@@ -210,16 +210,22 @@ def bundle():
 @expand_env
 @ensure_stage
 @msg('Stop Node.js')
-def stop_node():
-    """ Stop node.js server on the deployment host.
+def stop_server():
+    """ Stop server on the deployment host.
     """
-    sudo("supervisorctl stop %(supervisor_job)s" % env)
+    if env.provider is 'supervisor':
+        sudo("supervisorctl stop %(provider_job)s" % env)
+    else if env.provider is 'upstart':
+        sudo("service %(provider_job)s stop" % env)
 
 @task
 @expand_env
 @ensure_stage
 @msg('Start Node.js')
-def start_node():
-    """ Start node.js server on the deployment host.
+def start_server():
+    """ Start server on the deployment host.
     """
-    sudo("supervisorctl start %(supervisor_job)s" % env)
+    if env.provider is 'supervisor':
+        sudo("supervisorctl stop %(provider_job)s" % env)
+    else if env.provider is 'upstart':
+        sudo("service %(provider_job)s stop" % env)
