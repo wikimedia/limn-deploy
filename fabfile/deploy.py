@@ -215,7 +215,7 @@ def stop_server():
     """
     if env.provider is 'supervisor':
         sudo("supervisorctl stop %(provider_job)s" % env)
-    else if env.provider is 'upstart':
+    elif env.provider is 'upstart':
         sudo("service %(provider_job)s stop" % env)
 
 @task
@@ -227,5 +227,5 @@ def start_server():
     """
     if env.provider is 'supervisor':
         sudo("supervisorctl stop %(provider_job)s" % env)
-    else if env.provider is 'upstart':
+    elif env.provider is 'upstart':
         sudo("service %(provider_job)s stop" % env)
