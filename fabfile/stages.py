@@ -183,7 +183,7 @@ def mobile():
     env.target_data_dir = '/srv/mobile-reportcard.wmflabs.org/mobile-data'
     env.target_data_to  = 'rc'
     env.git_branch      = 'develop'
-	env.git_data_origin = 'https://github.com/wikimedia/limn-mobile-data.git'
+    env.git_data_origin = 'https://github.com/wikimedia/limn-mobile-data.git'
     env.git_data_branch = 'master'
     env.owner           = 'www-data'
     env.group           = 'www'
