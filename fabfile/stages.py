@@ -169,3 +169,23 @@ def dev():
     env.group           = 'www'
     env.provider_job    = 'dev-reportcard'
     env.provider        = 'supervisor'
+
+
+@stage
+def mobile():
+    """ Set deploy environment to mobile reportcard.
+    """
+    env.deploy_env      = 'mobile'
+    env.hosts           = ['kripke.pmtpa.wmflabs']
+    env.gateway         = 'bastion.wmflabs.org'
+    env.target_dir      = '/srv/mobile-reportcard.wmflabs.org/limn'
+    env.target_var_dir  = '/srv/mobile-reportcard.wmflabs.org/limn/var'
+    env.target_data_dir = '/srv/mobile-reportcard.wmflabs.org/mobile-data'
+    env.target_data_to  = 'rc'
+    env.git_branch      = 'develop'
+	env.git_data_origin = 'https://github.com/wikimedia/limn-mobile-data.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'www-data'
+    env.group           = 'www'
+    env.provider_job    = 'mobile-reportcard'
+    env.provider        = 'supervisor'
