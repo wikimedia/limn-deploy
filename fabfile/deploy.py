@@ -172,7 +172,7 @@ def remove_derived():
     """
     
     # Remove derived files to ensure they get regenerated
-    sudo('rm -rf %(target_dir)s/var' % env)
+    sudo('rm -rf %(target_dir)s/var/js %(target_dir)s/var/vendor %(target_dir)s/var/css %(target_dir)s/var/.cache' % env)
 
 @task
 @expand_env
@@ -229,3 +229,4 @@ def start_server():
         sudo("supervisorctl stop %(provider_job)s" % env)
     elif env.provider is 'upstart':
         sudo("service %(provider_job)s stop" % env)
+
