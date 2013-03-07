@@ -181,7 +181,7 @@ def mobile():
     env.target_dir      = '/srv/mobile-reportcard.wmflabs.org/limn'
     env.target_var_dir  = '/srv/mobile-reportcard.wmflabs.org/limn/var'
     env.target_data_dir = '/srv/mobile-reportcard.wmflabs.org/mobile-data'
-    env.target_data_to  = 'rc'
+    env.target_data_to  = 'mobile'
     env.git_branch      = 'develop'
     env.git_data_origin = 'https://github.com/wikimedia/limn-mobile-data.git'
     env.git_data_branch = 'master'
@@ -189,3 +189,43 @@ def mobile():
     env.group           = 'www'
     env.provider_job    = 'mobile-reportcard'
     env.provider        = 'supervisor'
+
+@stage
+    def mobile_dev():
+        """ Set deploy environment to mobile reportcard.
+        """
+        env.deploy_env      = 'mobile_dev'
+        env.hosts           = ['kripke.pmtpa.wmflabs']
+        env.gateway         = 'bastion.wmflabs.org'
+        env.target_dir      = '/srv/mobile-reportcard-dev.wmflabs.org/limn'
+        env.target_var_dir  = '/srv/mobile-reportcard-dev.wmflabs.org/limn/var'
+        env.target_data_dir = '/srv/mobile-reportcard-dev.wmflabs.org/mobile-data'
+        env.target_data_to  = 'mobile'
+        env.git_branch      = 'develop'
+        env.git_data_origin = 'https://github.com/wikimedia/limn-mobile-data.git'
+        env.git_data_branch = 'master'
+        env.owner           = 'www-data'
+        env.group           = 'www'
+        env.provider_job    = 'mobile-reportcard-dev'
+        env.provider        = 'supervisor'
+
+
+@stage
+    def ee_dashboard():
+        """ Set deploy environment to mobile reportcard.
+        """
+        env.deploy_env      = 'ee_dashboard'
+        env.hosts           = ['kripke.pmtpa.wmflabs']
+        env.gateway         = 'bastion.wmflabs.org'
+        env.target_dir      = '/srv/ee-dashboard.wmflabs.org/limn'
+        env.target_var_dir  = '/srv/ee-dashboard.wmflabs.org/limn/var'
+        env.target_data_dir = '/srv/ee-dashboard.wmflabs.org/editor-engagement-data'
+        env.target_data_to  = 'eee'
+        env.git_branch      = 'develop'
+        env.git_data_origin = 'https://github.com/wikimedia/limn-editor-engagement-data.git'
+        env.git_data_branch = 'master'
+        env.owner           = 'www-data'
+        env.group           = 'www'
+        env.provider_job    = 'ee-dashboard'
+        env.provider        = 'supervisor'
+
