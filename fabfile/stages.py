@@ -97,7 +97,7 @@ def prod():
     """
     env.deploy_env      = 'prod'
     env.hosts           = ['reportcard.pmtpa.wmflabs']
-    env.gateway         = 'bastion.wmflabs.org'
+    env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/usr/lib/limn'
     env.target_var_dir  = '/var/lib/limn/reportcard'
     env.target_data_dir = '/var/lib/limn/reportcard-data'
@@ -117,7 +117,7 @@ def test():
     """
     env.deploy_env      = 'test'
     env.hosts           = ['kripke.pmtpa.wmflabs']
-    env.gateway         = 'bastion.wmflabs.org'
+    env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/srv/test-reportcard.wmflabs.org/limn'
     env.target_var_dir  = '/srv/test-reportcard.wmflabs.org/limn/var'
     env.target_data_dir = '/srv/test-reportcard.wmflabs.org/reportcard-data'
@@ -137,7 +137,7 @@ def gp_dev():
     """
     env.deploy_env      = 'gp_dev'
     env.hosts           = ['kripke.pmtpa.wmflabs']
-    env.gateway         = 'bastion.wmflabs.org'
+    env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/srv/gp-dev.wmflabs.org/limn'
     env.target_var_dir  = '/srv/gp-dev.wmflabs.org/limn/var'
     env.target_data_dir = '/srv/gp-dev.wmflabs.org/limn-data'
@@ -157,7 +157,7 @@ def dev():
     """
     env.deploy_env      = 'dev'
     env.hosts           = ['kripke.pmtpa.wmflabs']
-    env.gateway         = 'bastion.wmflabs.org'
+    env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/srv/dev-reportcard.wmflabs.org/limn'
     env.target_var_dir  = '/srv/dev-reportcard.wmflabs.org/limn/var'
     env.target_data_dir = '/srv/dev-reportcard.wmflabs.org/reportcard-data'
@@ -177,7 +177,7 @@ def mobile():
     """
     env.deploy_env      = 'mobile'
     env.hosts           = ['kripke.pmtpa.wmflabs']
-    env.gateway         = 'bastion.wmflabs.org'
+    env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/srv/mobile-reportcard.wmflabs.org/limn'
     env.target_var_dir  = '/srv/mobile-reportcard.wmflabs.org/limn/var'
     env.target_data_dir = '/srv/mobile-reportcard.wmflabs.org/mobile-data'
@@ -191,41 +191,41 @@ def mobile():
     env.provider        = 'supervisor'
 
 @stage
-    def mobile_dev():
-        """ Set deploy environment to mobile reportcard.
-        """
-        env.deploy_env      = 'mobile_dev'
-        env.hosts           = ['kripke.pmtpa.wmflabs']
-        env.gateway         = 'bastion.wmflabs.org'
-        env.target_dir      = '/srv/mobile-reportcard-dev.wmflabs.org/limn'
-        env.target_var_dir  = '/srv/mobile-reportcard-dev.wmflabs.org/limn/var'
-        env.target_data_dir = '/srv/mobile-reportcard-dev.wmflabs.org/mobile-data'
-        env.target_data_to  = 'mobile'
-        env.git_branch      = 'develop'
-        env.git_data_origin = 'https://github.com/wikimedia/limn-mobile-data.git'
-        env.git_data_branch = 'master'
-        env.owner           = 'www-data'
-        env.group           = 'www'
-        env.provider_job    = 'mobile-reportcard-dev'
-        env.provider        = 'supervisor'
+def mobile_dev():
+    """ Set deploy environment to mobile reportcard.
+    """
+    env.deploy_env      = 'mobile_dev'
+    env.hosts           = ['kripke.pmtpa.wmflabs']
+    env.gateway         = 'bastion2.wmflabs.org'
+    env.target_dir      = '/srv/mobile-reportcard-dev.wmflabs.org/limn'
+    env.target_var_dir  = '/srv/mobile-reportcard-dev.wmflabs.org/limn/var'
+    env.target_data_dir = '/srv/mobile-reportcard-dev.wmflabs.org/mobile-data'
+    env.target_data_to  = 'mobile'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://github.com/wikimedia/limn-mobile-data.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'www-data'
+    env.group           = 'www'
+    env.provider_job    = 'mobile-reportcard-dev'
+    env.provider        = 'supervisor'
 
 
 @stage
-    def ee_dashboard():
-        """ Set deploy environment to mobile reportcard.
-        """
-        env.deploy_env      = 'ee_dashboard'
-        env.hosts           = ['kripke.pmtpa.wmflabs']
-        env.gateway         = 'bastion.wmflabs.org'
-        env.target_dir      = '/srv/ee-dashboard.wmflabs.org/limn'
-        env.target_var_dir  = '/srv/ee-dashboard.wmflabs.org/limn/var'
-        env.target_data_dir = '/srv/ee-dashboard.wmflabs.org/editor-engagement-data'
-        env.target_data_to  = 'eee'
-        env.git_branch      = 'develop'
-        env.git_data_origin = 'https://github.com/wikimedia/limn-editor-engagement-data.git'
-        env.git_data_branch = 'master'
-        env.owner           = 'www-data'
-        env.group           = 'www'
-        env.provider_job    = 'ee-dashboard'
-        env.provider        = 'supervisor'
+def ee_dashboard():
+    """ Set deploy environment to mobile reportcard.
+    """
+    env.deploy_env      = 'ee_dashboard'
+    env.hosts           = ['kripke.pmtpa.wmflabs']
+    env.gateway         = 'bastion2.wmflabs.org'
+    env.target_dir      = '/srv/ee-dashboard.wmflabs.org/limn'
+    env.target_var_dir  = '/srv/ee-dashboard.wmflabs.org/limn/var'
+    env.target_data_dir = '/srv/ee-dashboard.wmflabs.org/editor-engagement-data'
+    env.target_data_to  = 'eee'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://github.com/wikimedia/limn-editor-engagement-data.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'www-data'
+    env.group           = 'www'
+    env.provider_job    = 'ee-dashboard'
+    env.provider        = 'supervisor'
 
