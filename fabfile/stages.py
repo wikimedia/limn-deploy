@@ -132,22 +132,22 @@ def test():
 
 
 @stage
-def gp_dev():
+def gp():
     """ Set deploy environment to gp_dev.
     """
-    env.deploy_env      = 'gp_dev'
+    env.deploy_env      = 'gp'
     env.hosts           = ['kripke.pmtpa.wmflabs']
     env.gateway         = 'bastion2.wmflabs.org'
-    env.target_dir      = '/srv/gp-dev.wmflabs.org/limn'
-    env.target_var_dir  = '/srv/gp-dev.wmflabs.org/limn/var'
-    env.target_data_dir = '/srv/gp-dev.wmflabs.org/limn-data'
+    env.target_dir      = '/srv/gp.wmflabs.org/limn'
+    env.target_var_dir  = '/srv/gp.wmflabs.org/limn/var'
+    env.target_data_dir = '/srv/gp.wmflabs.org/limn-data'
     env.target_data_to  = 'gp'
     env.git_branch      = 'develop'
     env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/global-dev/dashboard-data.git'
     env.git_data_branch = 'master'
     env.owner           = 'www-data'
     env.group           = 'www'
-    env.provider_job    = 'gp-dev'
+    env.provider_job    = 'gp'
     env.provider        = 'supervisor'
 
 
