@@ -212,7 +212,7 @@ def mobile_dev():
 
 @stage
 def ee_dashboard():
-    """ Set deploy environment to mobile reportcard.
+    """ Set deploy environment to editor engagement dashboard
     """
     env.deploy_env      = 'ee_dashboard'
     env.hosts           = ['kripke.pmtpa.wmflabs']
@@ -229,3 +229,22 @@ def ee_dashboard():
     env.provider_job    = 'ee-dashboard'
     env.provider        = 'supervisor'
 
+
+@stage
+def debugging():
+    """ Set deploy environment to debugging
+    """
+    env.deploy_env      = 'debugging'
+    env.hosts           = ['kripke.pmtpa.wmflabs']
+    env.gateway         = 'bastion2.wmflabs.org'
+    env.target_dir      = '/srv/debugging.wmflabs.org/limn'
+    env.target_var_dir  = '/srv/debugging.wmflabs.org/limn/var'
+    env.target_data_dir = '/srv/debugging.wmflabs.org/debugging-data'
+    env.target_data_to  = 'debugging'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://github.com/wikimedia/limn-debugging-data.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'www-data'
+    env.group           = 'www'
+    env.provider_job    = 'debugging'
+    env.provider        = 'supervisor'
