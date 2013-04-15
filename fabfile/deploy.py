@@ -213,9 +213,9 @@ def bundle():
 def stop_server():
     """ Stop server on the deployment host.
     """
-    if env.provider is 'supervisor':
+    if env.provider == 'supervisor':
         sudo("supervisorctl stop %(provider_job)s" % env)
-    elif env.provider is 'upstart':
+    elif env.provider == 'upstart':
         sudo("service %(provider_job)s stop" % env)
 
 @task
@@ -223,10 +223,10 @@ def stop_server():
 @ensure_stage
 @msg('Start Node.js')
 def start_server():
-    """ Start server on the deployment host.
+    """ Start/restart server on the deployment host.
     """
-    if env.provider is 'supervisor':
-        sudo("supervisorctl stop %(provider_job)s" % env)
-    elif env.provider is 'upstart':
-        sudo("service %(provider_job)s stop" % env)
+    if env.provider == 'supervisor':
+        sudo("supervisorctl restart %(provider_job)s" % env)
+    elif env.provider == 'upstart':
+        sudo("service %(provider_job)s restart" % env)
 
