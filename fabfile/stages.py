@@ -4,22 +4,25 @@
 
 import sys
 from functools import wraps
-from fabric.api import env, abort, prompt, execute
+from fabric.api import env, abort, prompt, execute, task
 from fabric.colors import white, blue, cyan, green, yellow, red, magenta
 from fabric.contrib.console import confirm
+from util import InvalidChoice
 
 
 __all__ = [
-    'STAGE_NAMES', 'prompt_for_stage', 'ensure_stage', 
+    'STAGES', 'STAGE_NAMES', 'prompt_for_stage', 'ensure_stage', 'list_stages',
     'working_branch', 'check_branch',
 ]
 
 
+STAGES = {}
 STAGE_NAMES = []
 
 def stage(fn):
     """ Decorator indicating this function sets a stage environment.
     """
+    STAGES[fn.__name__] = fn
     STAGE_NAMES.append(fn.__name__)
     __all__.append(fn.__name__)
     return fn
@@ -31,7 +34,7 @@ def validate_stage(name):
     """
     name = name.strip()
     if name not in STAGE_NAMES:
-        raise Exception("%r is not a valid staging environment!" % name)
+        raise InvalidChoice("%r is not a valid staging environment!" % name)
     return name
 
 
@@ -54,7 +57,7 @@ def ensure_stage(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
         if 'deploy_env' not in env:
-            abort(red('You must specify a staging environment (prod, stage) prior to deploy!', bold=True))
+            abort(red('You must specify a staging environment (%s) prior to deploy!' % ', '.join(STAGE_NAMES), bold=True))
         return fn(*args, **kwargs)
     
     return wrapper
@@ -76,7 +79,13 @@ def check_branch(fn):
 
 ### Stages
 
-# env.stages = ['prod', 'staging']
+@task(default=True)
+def list_stages():
+    "List deployment enviornments."
+    print "Stages:\n"
+    maxlen = max(map(len, STAGE_NAMES))
+    for name, stage in STAGES.iteritems():
+        print '    %s  %s' % (name.ljust(maxlen), stage.__doc__.strip())
 
 # (otto) There should be a way to do this using stages.
 # See: http://tav.espians.com/fabric-python-with-cleaner-api-and-parallel-deployment-support.html
@@ -93,7 +102,7 @@ def check_branch(fn):
 
 @stage
 def prod():
-    """ Set deploy environment to production.
+    """ reportcard.wmflabs.org
     """
     env.deploy_env      = 'prod'
     env.hosts           = ['reportcard.pmtpa.wmflabs']
@@ -113,7 +122,7 @@ def prod():
 
 @stage
 def test():
-    """ Set deploy environment to test.
+    """ test-reportcard.wmflabs.org
     """
     env.deploy_env      = 'test'
     env.hosts           = ['kripke.pmtpa.wmflabs']
@@ -133,7 +142,7 @@ def test():
 
 @stage
 def gp():
-    """ Set deploy environment to gp_dev.
+    """ gp.wmflabs.org
     """
     env.deploy_env      = 'gp'
     env.hosts           = ['kripke.pmtpa.wmflabs']
@@ -153,7 +162,7 @@ def gp():
 
 @stage
 def dev():
-    """ Set deploy environment to dev.
+    """ dev-reportcard.wmflabs.org
     """
     env.deploy_env      = 'dev'
     env.hosts           = ['kripke.pmtpa.wmflabs']
@@ -173,7 +182,7 @@ def dev():
 
 @stage
 def mobile():
-    """ Set deploy environment to mobile reportcard.
+    """ mobile-reportcard.wmflabs.org
     """
     env.deploy_env      = 'mobile'
     env.hosts           = ['kripke.pmtpa.wmflabs']
@@ -192,7 +201,7 @@ def mobile():
 
 @stage
 def mobile_dev():
-    """ Set deploy environment to mobile reportcard.
+    """ mobile-reportcard-dev.wmflabs.org
     """
     env.deploy_env      = 'mobile_dev'
     env.hosts           = ['kripke.pmtpa.wmflabs']
@@ -212,7 +221,7 @@ def mobile_dev():
 
 @stage
 def ee_dashboard():
-    """ Set deploy environment to editor engagement dashboard
+    """ ee-dashboard.wmflabs.org
     """
     env.deploy_env      = 'ee_dashboard'
     env.hosts           = ['kripke.pmtpa.wmflabs']
@@ -232,7 +241,7 @@ def ee_dashboard():
 
 @stage
 def debugging():
-    """ Set deploy environment to debugging
+    """ debugging.wmflabs.org
     """
     env.deploy_env      = 'debugging'
     env.hosts           = ['kripke.pmtpa.wmflabs']
