@@ -92,6 +92,6 @@ def full_deploy():
     """ Bundles and deploys the project. [Default]
     """
     # FIXME: We have to fix bundling bundle.bundle_all()
-    deploy.deploy_and_update()
+    deploy.code_and_data()
 
 
