@@ -10,9 +10,14 @@ from fabric.api import *
 from fabric.colors import white, blue, cyan, green, yellow, red, magenta
 
 __all__ = (
+    'InvalidChoice',
     'quietly', 'msg', 'branches', 'working_branch', 'coke', 'update_version',
     'defaults', 'expand', 'expand_env', 'format', 'expand_env',
+    'validate_command', 'get_commands',
 )
+
+class InvalidChoice(Exception):
+    "Exception thrown when user makes an invalid choice in a prompt."
 
 
 ### Context Managers
@@ -123,3 +128,64 @@ def expand_env(fn):
     
     return wrapper
 
+
+def validate_command(cmd):
+    """ Tests whether a command-name is valid:
+        
+            name = fabric.api.prompt(msg, validate=validate_command)
+    """
+    import fabric.state
+    from fabric.main import _task_names
+    
+    cmd = cmd.strip()
+    if cmd not in _task_names(fabric.state.commands):
+        raise InvalidChoice("%r is not a valid command!" % cmd)
+    
+    return cmd
+
+def get_commands():
+    """ Attempts to figure out what commands the user wants to run, returning
+        a list of tuples of: (cmd_name, args, kwargs, hosts, roles, exclude_hosts)
+    """
+    # Note: Most of this is lifted from fabric.main
+    
+    from fabric import state, api
+    from fabric.main import parse_options, parse_arguments, parse_remainder
+    
+    # Parse command line options
+    parser, options, arguments = parse_options()
+    
+    # Handle regular args vs -- args
+    arguments = parser.largs
+    remainder_arguments = parser.rargs
+    
+    # Parse arguments into commands to run (plus args/kwargs/hosts)
+    commands_to_run = parse_arguments(arguments)
+    
+    # Parse remainders into a faux "command" to execute
+    remainder_command = parse_remainder(remainder_arguments)
+    
+    # Generate remainder command and insert into commands, commands_to_run
+    if remainder_command:
+        commands_to_run.append(('<shell>', [remainder_command], {}, [], [], []))
+    
+    return commands_to_run
+
+
+# def prompt_for_command(fn):
+#     "Decorator which prompts for a non-stage command to execute."
+#     
+#     @wraps(fn)
+#     def wrapper(*args, **kwargs):
+#         cmds = [ cmd[0] for cmd in get_commands() ]
+#         if not cmds:
+#             import stages
+#             from fabric.main import _task_names
+#             import fabric.state
+#             non_stage_commands = '\n'.join(' - ' + name for name in fabric.state.commands.keys() if name not in stages.STAGE_NAMES )
+#             prompt("Please select a command: %s")
+#         # Must call `execute` on the supplied task, otherwise the host-lists won't be updated.
+#         execute(fn, *args, **kwargs)
+#     
+#     return wrapper
+# 
