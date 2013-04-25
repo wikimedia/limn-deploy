@@ -257,3 +257,23 @@ def debugging():
     env.group           = 'www'
     env.provider_job    = 'debugging'
     env.provider        = 'supervisor'
+
+
+@stage
+def stats_limn001():
+    """ stats.wmflabs.org
+    """
+    env.deploy_env      = 'stats_limn001'
+    env.hosts           = ['stats-limn001.pmtpa.wmflabs']
+    env.gateway         = 'bastion2.wmflabs.org'
+    env.target_dir      = '/usr/local/share/limn'
+    env.target_var_dir  = '/var/lib/limn/stats'
+    env.target_data_dir = '/var/lib/limn/stats/data'
+    env.target_data_to  = 'example'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://github.com/wikimedia/limn-data.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'limn'
+    env.group           = 'limn'
+    env.provider_job    = 'limn-stats'
+    env.provider        = 'upstart'
