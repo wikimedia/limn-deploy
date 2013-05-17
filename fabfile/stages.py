@@ -129,9 +129,9 @@ def test_reportcard():
     env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/test-reportcard'
-    env.target_data_dir = '/var/lib/limn/test-reportcard/data'
+    env.target_data_dir = '/var/lib/limn/test-reportcard/data-repository'
     env.target_data_to  = 'rc'
-    env.git_branch      = 'master'
+    env.git_branch      = 'develop'
     env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/reportcard/data.git'
     env.git_data_branch = 'master'
     env.owner           = 'limn'
@@ -149,7 +149,7 @@ def gp():
     env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/gp'
-    env.target_data_dir = '/var/lib/limn/gp/data'
+    env.target_data_dir = '/var/lib/limn/gp/data-repository'
     env.target_data_to  = 'gp'
     env.git_branch      = 'develop'
     env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/global-dev/dashboard-data.git'
@@ -169,7 +169,7 @@ def dev_reportcard():
     env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/dev-reportcard'
-    env.target_data_dir = '/var/lib/limn/dev-reportcard/data'
+    env.target_data_dir = '/var/lib/limn/dev-reportcard/data-repository'
     env.target_data_to  = 'rc'
     env.git_branch      = 'develop'
     env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/reportcard/data.git'
@@ -181,15 +181,15 @@ def dev_reportcard():
 
 
 @stage
-def mobile():
+def mobile_reportcard():
     """ mobile-reportcard.wmflabs.org
     """
-    env.deploy_env      = 'mobile'
+    env.deploy_env      = 'mobile_reportcard'
     env.hosts           = ['limn0.pmtpa.wmflabs']
     env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/mobile-reportcard'
-    env.target_data_dir = '/var/lib/limn/mobile-reportcard/data'
+    env.target_data_dir = '/var/lib/limn/mobile-reportcard/data-repository'
     env.target_data_to  = 'mobile'
     env.git_branch      = 'develop'
     env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/limn-mobile-data.git'
@@ -200,15 +200,15 @@ def mobile():
     env.provider        = 'upstart'
 
 @stage
-def mobile_dev():
+def mobile_reportcard_dev():
     """ mobile-reportcard-dev.wmflabs.org
     """
-    env.deploy_env      = 'mobile_dev'
+    env.deploy_env      = 'mobile_reportcard_dev'
     env.hosts           = ['limn0.pmtpa.wmflabs']
     env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/mobile-reportcard-dev'
-    env.target_data_dir = '/var/lib/limn/mobile-reportcard-dev/data'
+    env.target_data_dir = '/var/lib/limn/mobile-reportcard-dev/data-repository'
     env.target_data_to  = 'mobile'
     env.git_branch      = 'develop'
     env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/limn-mobile-data.git'
@@ -228,7 +228,7 @@ def ee_dashboard():
     env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/ee-dashboard'
-    env.target_data_dir = '/var/lib/limn/ee-dashboard/data'
+    env.target_data_dir = '/var/lib/limn/ee-dashboard/data-repository'
     env.target_data_to  = 'eee'
     env.git_branch      = 'develop'
     env.git_data_origin = 'https://github.com/wikimedia/limn-editor-engagement-data.git'
@@ -248,7 +248,7 @@ def gerrit_stats():
     env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/gerrit-stats'
-    env.target_data_dir = '/var/lib/limn/gerrit-stats/data'
+    env.target_data_dir = '/var/lib/limn/gerrit-stats/data-repository'
     env.target_data_to  = 'gs'
     env.git_branch      = 'develop'
     env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/gerrit-stats/data.git'
@@ -256,26 +256,6 @@ def gerrit_stats():
     env.owner           = 'limn'
     env.group           = 'limn'
     env.provider_job    = 'limn-gerrit-stats'
-    env.provider        = 'upstart'
-
-
-@stage
-def debugging():
-    """ debugging.wmflabs.org
-    """
-    env.deploy_env      = 'debugging'
-    env.hosts           = ['limn0.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
-    env.target_dir      = '/usr/local/share/limn'
-    env.target_var_dir  = '/var/lib/limn/debugging'
-    env.target_data_dir = '/var/lib/limn/debugging/data'
-    env.target_data_to  = 'debugging'
-    env.git_branch      = 'develop'
-    env.git_data_origin = 'https://github.com/wikimedia/limn-debugging-data.git'
-    env.git_data_branch = 'master'
-    env.owner           = 'limn'
-    env.group           = 'limn'
-    env.provider_job    = 'limn-debugging'
     env.provider        = 'upstart'
 
 
@@ -288,7 +268,7 @@ def stats_limn001():
     env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/stats'
-    env.target_data_dir = '/var/lib/limn/stats/data'
+    env.target_data_dir = '/var/lib/limn/stats/data-repository'
     env.target_data_to  = 'example'
     env.git_branch      = 'develop'
     env.git_data_origin = 'https://github.com/wikimedia/limn-data.git'
@@ -296,6 +276,26 @@ def stats_limn001():
     env.owner           = 'limn'
     env.group           = 'limn'
     env.provider_job    = 'limn-stats'
+    env.provider        = 'upstart'
+
+
+@stage
+def debugging():
+    """ debugging.wmflabs.org
+    """
+    env.deploy_env      = 'debugging'
+    env.hosts           = ['limn0.pmtpa.wmflabs']
+    env.gateway         = 'bastion2.wmflabs.org'
+    env.target_dir      = '/usr/local/share/limn'
+    env.target_var_dir  = '/var/lib/limn/debugging'
+    env.target_data_dir = '/var/lib/limn/debugging/data-repository'
+    env.target_data_to  = 'debugging'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://github.com/wikimedia/limn-debugging-data.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'limn'
+    env.group           = 'limn'
+    env.provider_job    = 'limn-debugging'
     env.provider        = 'upstart'
 
 
