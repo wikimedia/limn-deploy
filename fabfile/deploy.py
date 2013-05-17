@@ -11,7 +11,6 @@ from stages import ensure_stage
 from util import *
 
 
-
 @task(default=True)
 @expand_env
 @ensure_stage
@@ -28,17 +27,17 @@ def code_and_data():
 def only_code():
     """ Deploy only the code
     """
+    stop_server()
+    
     make_directories()
-    fix_permissions()
     clone()
     update_branch()
-    stop_server()
-    remove_derived()
-    link_data()
+    install_dependencies()
+    
     build()
     bundle()
+    remove_derived()
     
-    fix_permissions()
     start_server()
 
 
@@ -49,10 +48,9 @@ def only_data():
     """ Deploy only the data
     """
     make_directories_data()
-    fix_permissions_data()
     clone_data()
     update_branch_data()
-    fix_permissions_data()
+    link_data()
 
 
 @task
@@ -60,16 +58,16 @@ def only_data():
 @ensure_stage
 @msg('Making Target Directories')
 def make_directories():
-    if not exists('%(target_dir)s' % env):
-        sudo('mkdir -p %(target_dir)s' % env)
+    if not exists('%(target_dir)s' % env, use_sudo=True):
+        sudo('mkdir -p %(target_dir)s' % env, user=env.owner)
 
 @task
 @expand_env
 @ensure_stage
 @msg('Making Target Directories for Data')
 def make_directories_data():
-    if not exists('%(target_data_dir)s' % env):
-        sudo('mkdir -p %(target_data_dir)s' % env)
+    if not exists('%(target_data_dir)s' % env, use_sudo=True):
+        sudo('mkdir -p %(target_data_dir)s' % env, user=env.owner)
 
 @task
 @expand_env
@@ -102,8 +100,8 @@ def fix_permissions_data(user=None, group=None):
 def clone():
     """ Clones source on deployment host if not present.
     """
-    if exists('%(target_dir)s/.git' % env): return
-    sudo('git clone %(git_origin)s %(target_dir)s' % env)
+    if exists('%(target_dir)s/.git' % env, use_sudo=True): return
+    sudo('git clone %(git_origin)s %(target_dir)s' % env, user=env.owner)
 
 @task
 @expand_env
@@ -112,8 +110,8 @@ def clone():
 def clone_data():
     """ Clones data repository on deployment host if not present.
     """
-    if exists('%(target_data_dir)s/.git' % env): return
-    sudo('git clone %(git_data_origin)s %(target_data_dir)s' % env)
+    if exists('%(target_data_dir)s/.git' % env, use_sudo=True): return
+    sudo('git clone %(git_data_origin)s %(target_data_dir)s' % env, user=env.owner)
 
 @task
 @expand_env
@@ -123,10 +121,10 @@ def checkout():
     """
     # TODO: Locally saved data files will cause yelling?
     with cd(env.target_dir):
-        sudo('git fetch --all')
+        sudo('git fetch --all', user=env.owner)
         opts = {'track' : '--track origin/' if env.git_branch not in branches() else ''}
         opts.update(env)
-        sudo('git checkout %(track)s%(git_branch)s' % opts)
+        sudo('git checkout %(track)s%(git_branch)s' % opts, user=env.owner)
 
 @task
 @expand_env
@@ -135,10 +133,10 @@ def checkout_data():
     """ Checks out proper data branch on deployment host.
     """
     with cd(env.target_data_dir):
-        sudo('git fetch --all')
+        sudo('git fetch --all', user=env.owner)
         opts = {'track' : '--track origin/' if env.git_data_branch not in branches() else ''}
         opts.update(env)
-        sudo('git checkout %(track)s%(git_data_branch)s' % opts)
+        sudo('git checkout %(track)s%(git_data_branch)s' % opts, user=env.owner)
 
 @task
 @expand_env
@@ -149,8 +147,7 @@ def update_branch():
     """
     with cd(env.target_dir):
         execute(checkout)
-        sudo('git pull origin %(git_branch)s' % env)
-        sudo('npm install')
+        sudo('git pull origin %(git_branch)s' % env, user=env.owner)
 
 @task
 @expand_env
@@ -161,7 +158,40 @@ def update_branch_data():
     """
     with cd(env.target_data_dir):
         execute(checkout_data)
-        sudo('git pull origin %(git_data_branch)s' % env)
+        sudo('git pull origin %(git_data_branch)s' % env, user=env.owner)
+
+@task
+@expand_env
+@ensure_stage
+@msg('Installing Dependencies Locally and Synchronizing')
+def install_dependencies():
+    """ Runs npm install on a fresh checkout, then rsyncs the node_modules
+    """
+    env.staging_dir = '/tmp/limn-deployer-staging'
+    
+    # get a clean clone and checkout the desired branch
+    local('rm -rf %(staging_dir)s' % env)
+    local('git clone %(git_origin)s %(staging_dir)s' % env)
+    local('cd %(staging_dir)s && git checkout %(git_branch)s' % env)
+    
+    # copy the package.json file to the current directory and run npm install
+    local('cp %(staging_dir)s/package.json .' % env)
+    # TODO: npm install from a blessed mirror so we can deploy to production
+    local('npm install' % env)
+    
+    # delete the staging directory on the remote host
+    # copy the node_modules to staging on the remote
+    # delete the node_modules on the remote target
+    # move the staging node_modules to the remote target
+    # clean up locally
+    sudo('rm -rf %(staging_dir)s' % env)
+    local('rsync -Cavz node_modules {0}:{1}/'.format(env.hosts[0], env.staging_dir))
+    sudo('rm -rf %(target_dir)s/node_modules' % env, user=env.owner)
+    sudo('chmod -R 777 %(staging_dir)s' % env)
+    sudo('mv %(staging_dir)s/node_modules %(target_dir)s/' % env, user=env.owner)
+    local('rm -rf node_modules')
+    local('rm package.json')
+    local('rm -rf %(staging_dir)s' % env)
 
 @task
 @expand_env
@@ -181,10 +211,11 @@ def remove_derived():
 def link_data():
     """ adds Sym-Links to the specified data directory
     """
-    if not exists('%(target_var_dir)s' % env):
-        sudo('mkdir -p %(target_var_dir)s' % env)
+    set_coke(env)
+    if not exists('%(target_var_dir)s' % env, use_sudo=True):
+        sudo('mkdir -p %(target_var_dir)s' % env, user=env.owner)
     with cd(env.target_dir):
-        sudo('coke -v %(target_var_dir)s -d %(target_data_dir)s -t %(target_data_to)s link_data' % env)
+        sudo('%(target_dir)s%(coke)s -v %(target_var_dir)s -d %(target_data_dir)s -t %(target_data_to)s link_data' % env, user=env.owner)
 
 @task
 @expand_env
@@ -193,8 +224,10 @@ def link_data():
 def build():
     """ Build sources to output directory
     """
+    set_coke(env)
     with cd(env.target_dir):
-        sudo('coke build' % env)
+        sudo('%(target_dir)s%(coke)s build' % env)
+        execute(fix_permissions)
 
 @task
 @expand_env
@@ -203,8 +236,9 @@ def build():
 def bundle():
     """ Bundling sources to support production mode
     """
+    set_coke(env)
     with cd(env.target_dir):
-        sudo('coke bundle' % env)
+        sudo('%(target_dir)s%(coke)s bundle' % env, user=env.owner)
 
 @task
 @expand_env
@@ -230,3 +264,6 @@ def start_server():
     elif env.provider == 'upstart':
         sudo("start %(provider_job)s" % env)
 
+
+def set_coke(env):
+    env.coke = '/node_modules/.bin/coke'
