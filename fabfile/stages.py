@@ -240,6 +240,26 @@ def ee_dashboard():
 
 
 @stage
+def gerrit_stats():
+    """ gerrit-stats.wmflabs.org
+    """
+    env.deploy_env      = 'gerrit_stats'
+    env.hosts           = ['kripke.pmtpa.wmflabs']
+    env.gateway         = 'bastion2.wmflabs.org'
+    env.target_dir      = '/srv/gerrit-stats.wmflabs.org/limn'
+    env.target_var_dir  = '/srv/gerrit-stats.wmflabs.org/limn/var'
+    env.target_data_dir = '/srv/gerrit-stats.wmflabs.org/editor-engagement-data'
+    env.target_data_to  = 'gs'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/gerrit-stats/data.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'www-data'
+    env.group           = 'www'
+    env.provider_job    = 'gerrit-stats'
+    env.provider        = 'supervisor'
+
+
+@stage
 def debugging():
     """ debugging.wmflabs.org
     """
