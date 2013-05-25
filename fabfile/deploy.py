@@ -11,14 +11,18 @@ from stages import ensure_stage
 from util import *
 
 
+def node_modules():
+    return env.target_dir + '/node_modules/.bin'
+
+
 @task(default=True)
 @expand_env
 @ensure_stage
 def code_and_data():
     """ Deploy the project.
     """
-    only_data()
     only_code()
+    only_data()
 
 
 @task
@@ -175,22 +179,22 @@ def install_dependencies():
     env.staging_dir = '/tmp/limn-deployer-staging'
     
     # get a clean clone and checkout the desired branch
-    #local('rm -rf %(staging_dir)s' % env)
-    #local('git clone %(git_origin)s %(staging_dir)s' % env)
-    #local('cd %(staging_dir)s && git checkout %(git_branch)s' % env)
+    local('rm -rf %(staging_dir)s' % env)
+    local('git clone %(git_origin)s %(staging_dir)s' % env)
+    local('cd %(staging_dir)s && git checkout %(git_branch)s' % env)
     
     ## copy the package.json file to the current directory and run npm install
-    #local('cp %(staging_dir)s/package.json .' % env)
+    local('cp %(staging_dir)s/package.json .' % env)
     ## TODO: npm install from a blessed mirror so we can deploy to production
-    #local('npm install' % env)
+    local('npm install' % env)
     
     ## delete the staging directory on the remote host
     ## copy the node_modules to staging on the remote
     ## delete the node_modules on the remote target
     ## move the staging node_modules to the remote target
     ## clean up locally
-    #sudo('rm -rf %(staging_dir)s' % env)
-    #local('rsync -Cavz node_modules {0}:{1}/'.format(env.hosts[0], env.staging_dir))
+    sudo('rm -rf %(staging_dir)s' % env)
+    local('rsync -Cavz node_modules {0}:{1}/'.format(env.hosts[0], env.staging_dir))
     sudo('rm -rf %(target_dir)s/node_modules' % env)
     sudo('chmod -R 777 %(staging_dir)s' % env)
     sudo('mv %(staging_dir)s/node_modules %(target_dir)s/' % env)
@@ -217,12 +221,12 @@ def remove_derived():
 def link_data():
     """ adds Sym-Links to the specified data directory
     """
-    set_coke(env)
     if not exists('%(target_var_dir)s' % env, use_sudo=True):
         sudo('mkdir -p %(target_var_dir)s' % env)
     with cd(env.target_dir):
-        sudo('%(target_dir)s%(coke)s -v %(target_var_dir)s -d %(target_data_dir)s -t %(target_data_to)s link_data' % env)
-        execute(fix_permissions_data)
+        with path(node_modules()):
+            sudo('coke -v %(target_var_dir)s -d %(target_data_dir)s -t %(target_data_to)s link_data' % env)
+            execute(fix_permissions_data)
 
 @task
 @expand_env
@@ -231,11 +235,11 @@ def link_data():
 def build():
     """ Build sources to output directory
     """
-    set_coke(env)
     sudo('echo "{}" > %(target_dir)s/var/config.json' % env) # dummy placeholder config just to get coke build to work
     with cd(env.target_dir):
-        sudo('%(target_dir)s%(coke)s build' % env)
-        execute(fix_permissions)
+        with path(node_modules()):
+            sudo('coke build' % env)
+            execute(fix_permissions)
 
 @task
 @expand_env
@@ -244,10 +248,10 @@ def build():
 def bundle():
     """ Bundling sources to support production mode
     """
-    set_coke(env)
     with cd(env.target_dir):
-        sudo('%(target_dir)s%(coke)s bundle' % env)
-        execute(fix_permissions)
+        with path(node_modules()):
+            sudo('coke bundle' % env)
+            execute(fix_permissions)
 
 @task
 @expand_env
@@ -274,5 +278,3 @@ def start_server():
         sudo("start %(provider_job)s" % env)
 
 
-def set_coke(env):
-    env.coke = '/node_modules/.bin/coke'
