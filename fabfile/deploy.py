@@ -11,8 +11,8 @@ from stages import ensure_stage
 from util import *
 
 
-def node_modules():
-    return env.target_dir + '/node_modules/.bin'
+def add_coke_to_path():
+    return 'export PATH=$PATH:' + env.target_dir + '/node_modules/.bin/'
 
 
 @task(default=True)
@@ -32,15 +32,16 @@ def only_code():
     """ Deploy only the code
     """
     
-    make_directories()
-    clone()
-    update_branch()
-    install_dependencies()
+    #make_directories()
+    #clone()
+    #update_branch()
+    #install_dependencies()
     
+    remove_derived()
     build()
     bundle()
-    remove_derived()
     
+    stop_server()
     start_server()
 
 
@@ -52,8 +53,8 @@ def only_data():
     """
     make_directories_data()
     clone_data()
-    link_data()
     update_branch_data()
+    link_data()
 
 
 @task
@@ -224,7 +225,7 @@ def link_data():
     if not exists('%(target_var_dir)s' % env, use_sudo=True):
         sudo('mkdir -p %(target_var_dir)s' % env)
     with cd(env.target_dir):
-        with path(node_modules()):
+        with prefix(add_coke_to_path()):
             sudo('coke -v %(target_var_dir)s -d %(target_data_dir)s -t %(target_data_to)s link_data' % env)
             execute(fix_permissions_data)
 
@@ -237,7 +238,7 @@ def build():
     """
     sudo('echo "{}" > %(target_dir)s/var/config.json' % env) # dummy placeholder config just to get coke build to work
     with cd(env.target_dir):
-        with path(node_modules()):
+        with prefix(add_coke_to_path()):
             sudo('coke build' % env)
             execute(fix_permissions)
 
@@ -249,7 +250,7 @@ def bundle():
     """ Bundling sources to support production mode
     """
     with cd(env.target_dir):
-        with path(node_modules()):
+        with prefix(add_coke_to_path()):
             sudo('coke bundle' % env)
             execute(fix_permissions)
 
