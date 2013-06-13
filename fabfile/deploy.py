@@ -21,7 +21,7 @@ def add_coke_to_path():
 def code_and_data():
     """ Deploy the project.
     """
-    only_code()
+    code_and_dependencies()
     only_data()
 
 
@@ -31,11 +31,22 @@ def code_and_data():
 def only_code():
     """ Deploy only the code
     """
-    
-    #make_directories()
-    #clone()
-    #update_branch()
-    #install_dependencies()
+    update_branch()
+    remove_derived()
+    build()
+    bundle()
+
+
+@task
+@expand_env
+@ensure_stage
+def code_and_dependencies():
+    """ Deploy the code and re-install dependencies
+    """
+    make_directories()
+    clone()
+    update_branch()
+    install_dependencies()
     
     remove_derived()
     build()
