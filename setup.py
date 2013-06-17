@@ -25,7 +25,7 @@ setup(
     
     install_requires = [
         "Fabric",
-        "paramiko == 1.9.0",
+        "paramiko == 1.10.0",
         "path.py",
     ],
     
