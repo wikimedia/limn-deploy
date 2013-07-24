@@ -139,7 +139,6 @@ def test_reportcard():
     env.provider_job    = 'limn-test-reportcard'
     env.provider        = 'upstart'
 
-
 @stage
 def gp():
     """ gp.wmflabs.org
@@ -149,7 +148,7 @@ def gp():
     env.gateway         = 'bastion2.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/gp'
-    env.target_data_dir = '/var/lib/limn/gp/data-repository'
+    env.target_data_dir = '/var/lib/limn/gp/gp-data-repository'
     env.target_data_to  = 'gp'
     env.git_branch      = 'develop'
     env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/global-dev/dashboard-data.git'
@@ -159,6 +158,44 @@ def gp():
     env.provider_job    = 'limn-gp'
     env.provider        = 'upstart'
 
+
+@stage
+def gp_zero():
+    """ gp.wmflabs.org (wp-zero data)
+    """
+    env.deploy_env      = 'gp'
+    env.hosts           = ['limn0.pmtpa.wmflabs']
+    env.gateway         = 'bastion2.wmflabs.org'
+    env.target_dir      = '/usr/local/share/limn'
+    env.target_var_dir  = '/var/lib/limn/gp'
+    env.target_data_dir = '/var/lib/limn/gp/gp-zero-data-repository'
+    env.target_data_to  = 'gp_zero'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://github.com/embr/wp-zero-data.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'limn'
+    env.group           = 'limn'
+    env.provider_job    = 'limn-gp'
+    env.provider        = 'upstart'
+
+@stage
+def gp_geowiki():
+    """ gp.wmflabs.org (wp-zero data)
+    """
+    env.deploy_env      = 'gp'
+    env.hosts           = ['limn0.pmtpa.wmflabs']
+    env.gateway         = 'bastion2.wmflabs.org'
+    env.target_dir      = '/usr/local/share/limn'
+    env.target_var_dir  = '/var/lib/limn/gp'
+    env.target_data_dir = '/var/lib/limn/gp/gp-geowiki-data-repository'
+    env.target_data_to  = 'gp_geowiki'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://github.com/embr/geowiki-data.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'limn'
+    env.group           = 'limn'
+    env.provider_job    = 'limn-gp'
+    env.provider        = 'upstart'
 
 @stage
 def dev_reportcard():
