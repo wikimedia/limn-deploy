@@ -336,6 +336,26 @@ def debugging():
     env.provider        = 'upstart'
 
 
+@stage
+def example():
+    """ debugging.wmflabs.org/dashboards/sample
+    """
+    env.deploy_env      = 'debugging'
+    env.hosts           = ['limn0.pmtpa.wmflabs']
+    env.gateway         = 'bastion2.wmflabs.org'
+    env.target_dir      = '/usr/local/share/limn'
+    env.target_var_dir  = '/var/lib/limn/debugging'
+    env.target_data_dir = '/var/lib/limn/example/data-repository'
+    env.target_data_to  = 'example'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://github.com/wikimedia/limn-data.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'limn'
+    env.group           = 'limn'
+    env.provider_job    = 'limn-debugging'
+    env.provider        = 'upstart'
+
+
 
 # NOTE: this is how the old supervisor deploy stage looked, for reference
 #@stage
