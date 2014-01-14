@@ -106,7 +106,7 @@ def prod():
     """
     env.deploy_env      = 'prod'
     env.hosts           = ['reportcard.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
+    env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/usr/lib/limn'
     env.target_var_dir  = '/var/lib/limn/reportcard'
     env.target_data_dir = '/var/lib/limn/reportcard-data'
@@ -126,7 +126,7 @@ def test_reportcard():
     """
     env.deploy_env      = 'test_reportcard'
     env.hosts           = ['limn0.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
+    env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/test-reportcard'
     env.target_data_dir = '/var/lib/limn/test-reportcard/data-repository'
@@ -145,7 +145,7 @@ def gp():
     """
     env.deploy_env      = 'gp'
     env.hosts           = ['limn0.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
+    env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/gp'
     env.target_data_dir = '/var/lib/limn/gp/gp-data-repository'
@@ -165,7 +165,7 @@ def gp_zero():
     """
     env.deploy_env      = 'gp'
     env.hosts           = ['limn0.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
+    env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/gp'
     env.target_data_dir = '/var/lib/limn/gp/gp-zero-data-repository'
@@ -184,7 +184,7 @@ def gp_geowiki():
     """
     env.deploy_env      = 'gp'
     env.hosts           = ['limn0.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
+    env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/gp'
     env.target_data_dir = '/var/lib/limn/gp/gp-geowiki-data-repository'
@@ -203,7 +203,7 @@ def dev_reportcard():
     """
     env.deploy_env      = 'dev_reportcard'
     env.hosts           = ['limn0.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
+    env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/dev-reportcard'
     env.target_data_dir = '/var/lib/limn/dev-reportcard/data-repository'
@@ -223,7 +223,7 @@ def mobile_reportcard():
     """
     env.deploy_env      = 'mobile_reportcard'
     env.hosts           = ['limn0.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
+    env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/mobile-reportcard'
     env.target_data_dir = '/var/lib/limn/mobile-reportcard/data-repository'
@@ -242,7 +242,7 @@ def mobile_reportcard_dev():
     """
     env.deploy_env      = 'mobile_reportcard_dev'
     env.hosts           = ['limn0.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
+    env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/mobile-reportcard-dev'
     env.target_data_dir = '/var/lib/limn/mobile-reportcard-dev/data-repository'
@@ -262,7 +262,7 @@ def ee_dashboard():
     """
     env.deploy_env      = 'ee_dashboard'
     env.hosts           = ['limn0.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
+    env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/ee-dashboard'
     env.target_data_dir = '/var/lib/limn/ee-dashboard/data-repository'
@@ -282,7 +282,7 @@ def gerrit_stats():
     """
     env.deploy_env      = 'gerrit_stats'
     env.hosts           = ['limn0.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
+    env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/gerrit-stats'
     env.target_data_dir = '/var/lib/limn/gerrit-stats/data-repository'
@@ -302,7 +302,7 @@ def stats_limn001():
     """
     env.deploy_env      = 'stats_limn001'
     env.hosts           = ['stats-limn001.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
+    env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/stats'
     env.target_data_dir = '/var/lib/limn/stats/data-repository'
@@ -322,7 +322,7 @@ def debugging():
     """
     env.deploy_env      = 'debugging'
     env.hosts           = ['limn0.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
+    env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/debugging'
     env.target_data_dir = '/var/lib/limn/debugging/data-repository'
@@ -342,7 +342,7 @@ def example():
     """
     env.deploy_env      = 'debugging'
     env.hosts           = ['limn0.pmtpa.wmflabs']
-    env.gateway         = 'bastion2.wmflabs.org'
+    env.gateway         = 'bastion.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/debugging'
     env.target_data_dir = '/var/lib/limn/example/data-repository'
@@ -356,6 +356,26 @@ def example():
     env.provider        = 'upstart'
 
 
+@stage
+def multimedia():
+    """ multimedia-metrics.wmflabs.org
+    """
+    env.deploy_env      = 'multimedia_metrics'
+    env.hosts           = ['limn0.pmtpa.wmflabs']
+    env.gateway         = 'bastion.wmflabs.org'
+    env.target_dir      = '/usr/local/share/limn'
+    env.target_var_dir  = '/var/lib/limn/multimedia-metrics'
+    env.target_data_dir = '/var/lib/limn/multimedia-metrics/data-repository'
+    env.target_data_to  = 'multimedia'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://git.gitorious.org/analytics/multimedia-limn.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'limn'
+    env.group           = 'limn'
+    env.provider_job    = 'limn-multimedia-metrics'
+    env.provider        = 'upstart'
+
+
 
 # NOTE: this is how the old supervisor deploy stage looked, for reference
 #@stage
@@ -364,7 +384,7 @@ def example():
     #"""
     #env.deploy_env      = 'debugging'
     #env.hosts           = ['kripke.pmtpa.wmflabs']
-    #env.gateway         = 'bastion2.wmflabs.org'
+    #env.gateway         = 'bastion.wmflabs.org'
     #env.target_dir      = '/srv/debugging.wmflabs.org/limn'
     #env.target_var_dir  = '/srv/debugging.wmflabs.org/limn/var'
     #env.target_data_dir = '/srv/debugging.wmflabs.org/debugging-data'
