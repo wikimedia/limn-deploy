@@ -108,7 +108,7 @@ class GatewayConnectionCache(network.HostConnectionCache):
         gw_user, gw_host, gw_port = network.normalize(gw)
         if self._gw is None:
             # Normalize given key (i.e. obtain username and port, if not given)
-            self._gw = network.connect(gw_user, gw_host, gw_port)
+            self._gw = network.connect(gw_user, gw_host, gw_port, None, False)
         
         # Normalize given key (i.e. obtain username and port, if not given)
         user, host, port = network.normalize(key)
