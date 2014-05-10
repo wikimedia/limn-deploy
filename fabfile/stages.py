@@ -296,3 +296,23 @@ def multimedia():
     env.group           = 'limn'
     env.provider_job    = 'limn-multimedia-metrics'
     env.provider        = 'upstart'
+
+
+@stage
+def glam():
+    """ multimedia-metrics.wmflabs.org
+    """
+    env.deploy_env      = 'glam_metrics'
+    env.hosts           = ['limn1.eqiad.wmflabs']
+    env.gateway         = 'bastion-eqiad.wmflabs.org'
+    env.target_dir      = '/usr/local/share/limn'
+    env.target_var_dir  = '/var/lib/limn/glam-metrics'
+    env.target_data_dir = '/var/lib/limn/glam-metrics/data-repository'
+    env.target_data_to  = 'glam'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://github.com/Commonists/limn-glam.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'limn'
+    env.group           = 'limn'
+    env.provider_job    = 'limn-glam-metrics'
+    env.provider        = 'upstart'
