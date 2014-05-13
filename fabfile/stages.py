@@ -290,7 +290,7 @@ def multimedia():
     env.target_data_dir = '/var/lib/limn/multimedia-metrics/data-repository'
     env.target_data_to  = 'multimedia'
     env.git_branch      = 'develop'
-    env.git_data_origin = 'https://git.gitorious.org/analytics/multimedia-limn.git'
+    env.git_data_origin = 'https://gerrit.wikimedia.org/r/analytics/multimedia/config'
     env.git_data_branch = 'master'
     env.owner           = 'limn'
     env.group           = 'limn'
