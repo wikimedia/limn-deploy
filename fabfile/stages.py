@@ -219,6 +219,26 @@ def mobile_reportcard():
 
 
 @stage
+def flow():
+    """ flow-reportcard.wmflabs.org
+    """
+    env.deploy_env      = 'flow'
+    env.hosts           = ['limn1.eqiad.wmflabs']
+    env.gateway         = 'bastion-eqiad.wmflabs.org'
+    env.target_dir      = '/usr/local/share/limn'
+    env.target_var_dir  = '/var/lib/limn/flow-reportcard'
+    env.target_data_dir = '/var/lib/limn/flow-reportcard/data-repository'
+    env.target_data_to  = 'flow'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/limn-flow-data.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'limn'
+    env.group           = 'limn'
+    env.provider_job    = 'limn-flow-reportcard'
+    env.provider        = 'upstart'
+
+
+@stage
 def ee_dashboard():
     """ ee-dashboard.wmflabs.org
     """
