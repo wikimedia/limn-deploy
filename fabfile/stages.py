@@ -336,3 +336,23 @@ def glam():
     env.group           = 'limn'
     env.provider_job    = 'limn-glam-metrics'
     env.provider        = 'upstart'
+
+
+@stage
+def edit():
+    """ edit-reportcard.wmflabs.org
+    """
+    env.deploy_env      = 'edit'
+    env.hosts           = ['limn1.eqiad.wmflabs']
+    env.gateway         = 'bastion-eqiad.wmflabs.org'
+    env.target_dir      = '/usr/local/share/limn'
+    env.target_var_dir  = '/var/lib/limn/edit-reportcard'
+    env.target_data_dir = '/var/lib/limn/edit-reportcard/data-repository'
+    env.target_data_to  = 'edit'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/limn-edit-data.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'limn'
+    env.group           = 'limn'
+    env.provider_job    = 'limn-edit-reportcard'
+    env.provider        = 'upstart'
