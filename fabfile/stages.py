@@ -356,3 +356,23 @@ def edit():
     env.group           = 'limn'
     env.provider_job    = 'limn-edit-reportcard'
     env.provider        = 'upstart'
+
+
+@stage
+def language():
+    """ language-reportcard.wmflabs.org
+    """
+    env.deploy_env      = 'language'
+    env.hosts           = ['limn1.eqiad.wmflabs']
+    env.gateway         = 'bastion-eqiad.wmflabs.org'
+    env.target_dir      = '/usr/local/share/limn'
+    env.target_var_dir  = '/var/lib/limn/language-reportcard'
+    env.target_data_dir = '/var/lib/limn/language-reportcard/data-repository'
+    env.target_data_to  = 'language'
+    env.git_branch      = 'develop'
+    env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/limn-language-data.git'
+    env.git_data_branch = 'master'
+    env.owner           = 'limn'
+    env.group           = 'limn'
+    env.provider_job    = 'limn-language-reportcard'
+    env.provider        = 'upstart'
