@@ -101,17 +101,17 @@ def list_stages():
 ###
 
 @stage
-def prod():
+def reportcard():
     """ reportcard.wmflabs.org
     """
-    env.deploy_env      = 'prod'
-    env.hosts           = ['reportcard1.eqiad.wmflabs']
+    env.deploy_env      = 'reportcard'
+    env.hosts           = ['limn1.eqiad.wmflabs']
     env.gateway         = 'bastion-eqiad.wmflabs.org'
     env.target_dir      = '/usr/local/share/limn'
     env.target_var_dir  = '/var/lib/limn/reportcard'
-    env.target_data_dir = '/var/lib/limn/reportcard-data'
+    env.target_data_dir = '/var/lib/limn/reportcard/data-repository'
     env.target_data_to  = 'rc'
-    env.git_branch      = 'master'
+    env.git_branch      = 'develop'
     env.git_data_origin = 'https://gerrit.wikimedia.org/r/p/analytics/reportcard/data.git'
     env.git_data_branch = 'master'
     env.owner           = 'limn'
