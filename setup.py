@@ -24,8 +24,8 @@ setup(
     packages         = find_packages(),
     
     install_requires = [
-        "Fabric",
-        "paramiko",
+        "Fabric==1.8.1",
+        "paramiko==1.15.2",
         "pycrypto",
         "path.py",
     ],
