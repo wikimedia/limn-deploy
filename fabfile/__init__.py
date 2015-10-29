@@ -16,6 +16,8 @@ try:
     from path import path as p # renamed to avoid conflict w/ fabric.api.path
     # Dep for the crazy SSH Proxy Gateway monkeypatch
     import paramiko
+    
+    #paramiko.util.log_to_file("paramiko.log")
 except ImportError:
     print """ 
         ERROR: You're missing a dependency!
@@ -23,11 +25,9 @@ except ImportError:
             
             pip install -U Fabric paramiko path.py
         """
+    raise
     sys.exit(1)
 
-# My mind is blown. This totally works. See: https://github.com/fabric/fabric/issues/38#issuecomment-5608014
-# TODO: Try out remote_tunnel in Fabric 1.6: http://docs.fabfile.org/en/1.6/api/core/context_managers.html#fabric.context_managers.remote_tunnel
-import monkeypatch_sshproxy
 from util import *
 
 
@@ -69,7 +69,6 @@ for k in env_paths:
 
 env.vendor_search_dirs = [ expand(p(vd)) for vd in env.vendor_search_dirs ]
 env.app_bundle_min     = p(env.app_bundle.replace('.js', '.min.js'))
-
 
 
 ### Setup Staging Environments
